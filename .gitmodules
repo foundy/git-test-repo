@@ -1,0 +1,3 @@
+[submodule "test-repo-sub1"]
+	path = test-repo-sub1
+	url = https://github.com/foundy/test-repo-sub1.git
