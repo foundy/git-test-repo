@@ -1,2 +1,8 @@
 documentation:
   - '**/*.md'
+app-1:
+  - dirs/apps/app1/**/*
+app-2:
+  - dirs/apps/app2/**/*
+common:
+  - any: ['dirs/**/*', '!dirs/apps/*']
