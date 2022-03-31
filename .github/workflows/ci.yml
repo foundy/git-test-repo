@@ -17,7 +17,7 @@ jobs:
         run: |
           SOURCE_BRANCH=${GITHUB_REF#refs/heads/}
 
-          echo SOURCE_BRANCH: ${GITHUB_REF_NAME}
+          echo SOURCE_BRANCH: ${GITHUB_HEAD_REF}
           echo TARGET_BRANCH: $GITHUB_BASE_REF
 
           if [[ ! ${SOURCE_BRANCH} =~ ^(stage|hotfix) ]]; then
