@@ -14,9 +14,11 @@ jobs:
         run: |
           SOURCE_BRANCH=${GITHUB_REF#refs/heads/}
 
-          if [[ ${SOURCE_BRANCH} =~ ^(stage//*|hotfix//*) ]]; then
-            echo SOURCE_BRANCH: $SOURCE_BRANCH
-          else
+          echo SOURCE_BRANCH: $SOURCE_BRANCH
+          echo TARGET_BRANCH: $GITHUB_BASE_REF
+
+          if [[ ! ${SOURCE_BRANCH} =~ ^(stage|hotfix) ]]; then
+            echo Not Allowed
             exit 1
           fi
 
