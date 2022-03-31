@@ -9,6 +9,9 @@ jobs:
   branch-check:
     runs-on: ubuntu-latest
     steps:
+      - name: Cehckout
+        uses: actions/checkout@v2
+
       - name: Source Branch Check
         if: ${{ github.event_name == 'pull_request' && github.base_ref == 'master' }}
         run: |
