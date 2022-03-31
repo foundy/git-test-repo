@@ -6,6 +6,22 @@ on:
       - master
 
 jobs:
+  branch-check:
+    if: ${{ github.event_name == 'pull_request' && github.hef == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Source Branch Check
+        run: |
+          SOURCE_BRANCH=${GITHUB_BASE_REF}
+
+          if [[ ${SOURCE_BRANCH} =~ ^stage ]]; then
+            echo SOURCE_BRANCH: $SOURCE_BRANCH
+          elif [[ ${SOURCE_BRANCH} =~ ^hotfix ]]; then
+            echo SOURCE_BRANCH: $SOURCE_BRANCH
+          else
+            exit 1
+          fi
+
   install:
     runs-on: ubuntu-latest
     steps:
@@ -20,7 +36,7 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: install
-        run: exit 1
+        run: echo "eslint"
 
   eslint:
     runs-on: ubuntu-latest
