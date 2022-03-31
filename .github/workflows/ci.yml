@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Source Branch Check
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' && github.hef == 'refs/heads/master' }}
         run: |
           SOURCE_BRANCH=${GITHUB_BASE_REF}
 
@@ -53,5 +53,3 @@ jobs:
 
       - name: eslint
         run: echo "eslint"
-
-# if: ${{ github.event_name == 'pull_request' && github.hef == 'refs/heads/master' }}
