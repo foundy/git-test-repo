@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Source Branch Check
-        if: ${{ github.event_name == 'pull_request' && github.hef == 'refs/heads/master' }}
+        if: ${{ github.event_name == 'pull_request' && github.base_ref == 'master' }}
         run: |
           SOURCE_BRANCH=${GITHUB_BASE_REF}
 
