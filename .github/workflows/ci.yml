@@ -12,11 +12,9 @@ jobs:
       - name: Source Branch Check
         if: ${{ github.event_name == 'pull_request' && github.base_ref == 'master' }}
         run: |
-          SOURCE_BRANCH=${GITHUB_HEAD_REF}
+          SOURCE_BRANCH=${GITHUB_REF#refs/heads/}
 
-          if [[ ${SOURCE_BRANCH} =~ ^stage ]]; then
-            echo SOURCE_BRANCH: $SOURCE_BRANCH
-          elif [[ ${SOURCE_BRANCH} =~ ^hotfix ]]; then
+          if [[ ${SOURCE_BRANCH} =~ ^(stage//*|hotfix//*) ]]; then
             echo SOURCE_BRANCH: $SOURCE_BRANCH
           else
             exit 1
