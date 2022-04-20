@@ -1,0 +1,20 @@
+name: St Test
+
+on:
+  workflow_run:
+    workflows: [Pull Request Labeler]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    stpes:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Branch
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+
+          echo BRANCH_NAME: $BRANCH_NAME
