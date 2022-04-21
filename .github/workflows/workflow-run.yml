@@ -1,0 +1,21 @@
+name: Workflow Run
+
+on:
+  workflow_run:
+    workflows: [Continuous Integration]
+    types: [completed]
+    branches:
+      - master
+      - develop
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Branch
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo BRANCH_NAME: $BRANCH_NAM
