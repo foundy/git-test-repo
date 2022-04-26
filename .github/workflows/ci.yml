@@ -54,3 +54,13 @@ jobs:
 
       - name: eslint
         run: echo "eslint"
+
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.18.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          slack-message: |
+            :aws: Deployed to Prod (${{ job.status }})
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
