@@ -61,6 +61,9 @@ jobs:
         with:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           slack-message: |
-            :aws: Deployed to Prod (${{ job.status }})
+            :aws: *Desktop*
+            > Deployed to Prod (${{ job.status }})
+            >
+            > ${{ github.event.commits[0].message }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
