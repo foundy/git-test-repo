@@ -59,7 +59,7 @@ jobs:
           COMMITS="${COMMITS//'%'/'%25'}"
           COMMITS="${COMMITS//$'\n'/'%0A'}"
           COMMITS="${COMMITS//$'\r'/'%0D'}"
-          echo ::set-output name=SLACK_COMMIT_MESSAGES::$COMMITS
+          echo ::set-output name=SLACK_COMMIT_MESSAGES::$(echo "$COMMITS")
           echo "$COMMITS"
       - name: Slack Notification - Ready to deploy
         id: slack-ready
