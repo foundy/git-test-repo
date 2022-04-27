@@ -5,6 +5,9 @@ on:
     branches:
       - master
       - develop
+  push:
+    branches:
+      - master
 
 jobs:
   branch-check:
@@ -48,8 +51,9 @@ jobs:
 
       - name: Get commit messages
         id: slack_vars
-        run:
-          echo ::set-output name=SLACK_COMMIT_MESSAGES::$(git log --format="%h %s" --no-merges -n 5 HEAD)
+        run: |
+          echo ::set-output name=SLACK_COMMIT_MESSAGES::$(git log --format="`%h` %s" --no-merges -n 5 HEAD)
+          echo "MSG: ${{ steps.slack_vars.outputs.SLACK_COMMIT_MESSAGES }}"
       - name: Slack Notification - Ready to deploy
         id: slack-ready
         uses: slackapi/slack-github-action@v1.18.0
