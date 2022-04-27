@@ -43,6 +43,22 @@ jobs:
     runs-on: ubuntu-latest
     needs: install
     steps:
+      - name: Get commit messages
+        id: slack_vars
+        run:
+          echo ::set-output name=SLACK_COMMIT_MESSAGES::$(git log --format="%h %s" --no-merges -n 5 HEAD)
+      - name: Slack Notification - Ready to deploy
+        id: slack-ready
+        uses: slackapi/slack-github-action@v1.18.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          slack-message: |
+            :aws: *Desktop*
+            Ready to deploy `prod` :githubloading:
+            > ${{ steps.slack_vars.outputs.SLACK_COMMIT_MESSAGES }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -55,15 +71,13 @@ jobs:
       - name: eslint
         run: echo "eslint"
 
-      - name: Post to a Slack channel
-        id: slack
+      - name: Slack Notification - Deployed
+        id: slack-deployed
         uses: slackapi/slack-github-action@v1.18.0
         with:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           slack-message: |
             :aws: *Desktop*
-            > Deployed to Prod (${{ job.status }})
-            >
-            > $(git log --no-merges -1 --oneline)
+            Deployed to `Prod` (${{ job.status }})
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
