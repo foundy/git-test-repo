@@ -52,8 +52,13 @@ jobs:
       - name: Get commit messages
         id: slack_vars
         run: |
-          COMMITS=$(git log --format="\`%h\` %s" --no-merges -n 5 HEAD)
-          echo ::set-output name=SLACK_COMMIT_MESSAGES::$COMMITS
+          COMMITS=$(cat << EOF
+          $(git log --format="\`%h\` %s" --no-merges -n 5 HEAD)
+          EOF
+          )
+          echo "COMMITS<<EOF" >> $GITHUB_ENV
+          echo "$COMMITS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
           echo $COMMITS
       - name: Slack Notification - Ready to deploy
         id: slack-ready
@@ -63,7 +68,7 @@ jobs:
           slack-message: |
             :aws: *Desktop*
             Ready to deploy `prod` :githubloading:
-            > ${{ steps.slack_vars.outputs.SLACK_COMMIT_MESSAGES }}
+            > ${{ env.COMMITS }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
