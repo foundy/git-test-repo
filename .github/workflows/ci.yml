@@ -52,10 +52,7 @@ jobs:
       - name: Get commit messages
         id: slack_vars
         run: |
-          COMMITS=$(cat << EOF
-          $(git log --format="\`%h\` %s" --no-merges -n 5 HEAD)
-          EOF
-          )
+          COMMITS=$(git log --format="\`%h\` %s" --no-merges -n 5 HEAD)
           echo ::set-output name=SLACK_COMMIT_MESSAGES::$COMMITS
           echo $COMMITS
       - name: Slack Notification - Ready to deploy
