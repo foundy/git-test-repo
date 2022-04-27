@@ -43,6 +43,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: install
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Get commit messages
         id: slack_vars
         run:
@@ -58,9 +61,6 @@ jobs:
             > ${{ steps.slack_vars.outputs.SLACK_COMMIT_MESSAGES }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-
-      - name: Checkout
-        uses: actions/checkout@v2
 
       - name: Use Node.js 16.x
         uses: actions/setup-node@v2
