@@ -53,7 +53,7 @@ jobs:
         id: slack_vars
         run: |
           COMMITS=$(cat << EOF
-          git log --format="`%h` %s" --no-merges -n 5 HEAD
+          git log --format="\`%h\` %s" --no-merges -n 5 HEAD
           EOF
           )
           COMMITS="${COMMITS//'%'/'%25'}"
