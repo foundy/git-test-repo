@@ -1,0 +1,23 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.18.0
+        with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          slack-message: |
+            :open-reaction: *Desktop*
+            ${{ github.event.pull_request.title }}
+            - `${{ github.head_ref }}` to `${{ github.base_ref }}` (${{ github.event.pull_request.user.login }})
+            - ${{ github.event.pull_request.html_url || github.event.head_commit.url }}
+            ${{ github.event.pull_request.body }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
