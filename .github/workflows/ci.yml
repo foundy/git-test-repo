@@ -64,6 +64,6 @@ jobs:
             :aws: *Desktop*
             > Deployed to Prod (${{ job.status }})
             >
-            > ${{ github.event.commits[0].message }}
+            > $(git log --no-merges -1 --oneline)
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
