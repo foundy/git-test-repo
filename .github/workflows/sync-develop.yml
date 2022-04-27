@@ -3,7 +3,7 @@ name: Sync Develop
 on:
   push:
     branches:
-      - master
+      - master-break
 
 jobs:
   sync-branches:
