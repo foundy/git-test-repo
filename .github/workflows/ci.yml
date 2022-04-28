@@ -55,12 +55,12 @@ jobs:
         id: slack_vars
         run: |
           COMMITS=$(cat << EOF
-          $(git log --format="\`%h\` %s" --no-merges -n 5 HEAD)
+          $(git log --format="\> `%h\` %s" --no-merges -n 5 HEAD)
           EOF
           )
-          # COMMITS="${COMMITS//'%'/'%25'}"
-          # COMMITS="${COMMITS//$'\n'/'%0A'}"
-          # COMMITS="${COMMITS//$'\r'/'%0D'}"
+          COMMITS="${COMMITS//'%'/'%25'}"
+          COMMITS="${COMMITS//$'\n'/'%0A'}"
+          COMMITS="${COMMITS//$'\r'/'%0D'}"
           echo ::set-output name=SLACK_COMMIT_MESSAGES::$COMMITS
       - name: Slack Notification - Deploying
         uses: slackapi/slack-github-action@v1.18.0
@@ -69,7 +69,7 @@ jobs:
           slack-message: |
             :aws: *Desktop*
             Deploying to `prod` :githubloading:
-            > ${{ steps.slack_vars.outputs.SLACK_COMMIT_MESSAGES }}
+            ${{ steps.slack_vars.outputs.SLACK_COMMIT_MESSAGES }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
