@@ -79,7 +79,8 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: eslint
-        run: echo "eslint"
+        #run: echo "eslint"
+        run: exit 1
 
       - name: Slack Notification - Deployed
         uses: slackapi/slack-github-action@v1.18.0
