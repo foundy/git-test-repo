@@ -59,8 +59,7 @@ jobs:
           COMMITS="${COMMITS//'%'/'%25'}"
           COMMITS="${COMMITS//$'\n'/'%0A'}"
           COMMITS="${COMMITS//$'\r'/'%0D'}"
-          echo ::set-output name=SLACK_COMMIT_MESSAGES::$(echo "$COMMITS")
-          echo "$COMMITS"
+          echo ::set-output name=SLACK_COMMIT_MESSAGES::$COMMITS
       - name: Slack Notification - Deploying
         uses: slackapi/slack-github-action@v1.18.0
         with:
@@ -79,8 +78,9 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: eslint
-        #run: echo "eslint"
-        run: exit 1
+        run: |
+          echo "eslint"
+          echo "multiline: ${{ steps.slack_vars.outputs.SLACK_COMMIT_MESSAGES }}"
 
       - name: Slack Notification - Deployed
         if: ${{ always() }}
