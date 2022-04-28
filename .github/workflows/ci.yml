@@ -61,14 +61,13 @@ jobs:
           COMMITS="${COMMITS//$'\r'/'%0D'}"
           echo ::set-output name=SLACK_COMMIT_MESSAGES::$(echo "$COMMITS")
           echo "$COMMITS"
-      - name: Slack Notification - Ready to deploy
-        id: slack-ready
+      - name: Slack Notification - Deploying
         uses: slackapi/slack-github-action@v1.18.0
         with:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           slack-message: |
             :aws: *Desktop*
-            Ready to deploy `prod` :githubloading:
+            Deploying to `prod` :githubloading:
             > ${{ steps.slack_vars.outputs.SLACK_COMMIT_MESSAGES }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
@@ -83,12 +82,11 @@ jobs:
         run: echo "eslint"
 
       - name: Slack Notification - Deployed
-        id: slack-deployed
         uses: slackapi/slack-github-action@v1.18.0
         with:
           channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           slack-message: |
             :aws: *Desktop*
-            Deployed to `Prod` (${{ job.status }})
+            Deployed to `Prod` ${{ job.status == 'success' && ':github-check-mark:' || ':github-changes-requested:' }}
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
